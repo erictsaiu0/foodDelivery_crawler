@@ -3,3 +3,4 @@ out.txt
 nohup.txt
 *.ipynb
 secret.txt
+.venv/

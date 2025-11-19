@@ -75,6 +75,9 @@ def get_near_shop(lat, lng, today):
         "serviceFeeAmount(%)": [],
         "updateDate": [],
         "tags": [],
+        "promotioninfo": [],
+        "orderable": [],
+        "is_new_until": [],
     }
 
     query = {
@@ -215,6 +218,16 @@ def get_near_shop(lat, lng, today):
             result["tags"].append(
                 json.dumps(restaurant.get("tags", []), ensure_ascii=False)
             )
+            tags = restaurant.get("tags") or []
+            promotion_texts = [
+                tag.get("text", "")
+                for tag in tags
+                if isinstance(tag, dict) and tag.get("text")
+            ]
+            promotion_info = " • ".join(promotion_texts)
+            result["promotioninfo"].append(promotion_info)
+            result["is_new_until"].append(restaurant.get("is_new_until", None))
+            result["orderable"].append(restaurant.get("is_active", False))
     df = pd.DataFrame.from_dict(result)
     try:
         availabes_df.loc[availabes_df.shape[0]] = {
