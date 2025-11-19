@@ -269,7 +269,12 @@ def concat_df(TODAY):
             tmp = pd.read_csv(f"{args.outputPath}/{TODAY}/{file}")
             joinedlist.append(tmp)
 
-    df = pd.concat(joinedlist)
+    valid_frames = [frame for frame in joinedlist if not frame.empty]
+    if len(valid_frames) == 0:
+        logging.warning(f"No available shop lists found under {args.outputPath}/{TODAY}")
+        return pd.DataFrame()
+
+    df = pd.concat(valid_frames)
     df = df.drop_duplicates(subset=["shopCode"])  # drop duplicate shopCode
     df.to_csv(f"{args.outputPath}/{TODAY}/all_most_{TODAY}.csv")
     try:
@@ -342,5 +347,5 @@ if __name__ == "__main__":
         f"{args.outputPath}/{TODAY}/availableCounts.csv"
     )
 
-    logging.info("number of resuarant in total: ", len(shopData))
+    logging.info(f"number of resuarant in total: {len(shopData)}")
     availabes_df.to_csv(f"{args.outputPath}/{TODAY}/available_counts.csv")
