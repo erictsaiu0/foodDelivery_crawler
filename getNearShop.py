@@ -279,7 +279,7 @@ def concat_df(TODAY):
     df.to_csv(f"{args.outputPath}/{TODAY}/all_most_{TODAY}.csv")
     try:
         df = pd.concat(
-            [df, pd.read_csv(f"{args.outputPath}/rolling.csv")]
+            [df, pd.read_csv(f"{args.outputPath}/rolling.csv", low_memory=False)]
         ).drop_duplicates(subset=["shopCode"])
     except Exception:
         pass
