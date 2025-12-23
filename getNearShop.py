@@ -54,6 +54,7 @@ def get_near_shop(lat, lng, today):
     result = {
         "shopName": [],
         "shopCode": [],
+        "redirection_url": [],
         "budget": [],
         "category": [],
         "pandaOnly": [],
@@ -162,7 +163,7 @@ def get_near_shop(lat, lng, today):
         data = res.json()
 
         # save to json file
-        if TODAY.endswith("10"):
+        if True:
             if not os.path.exists(f"{args.outputPath}/shop_json"):
                 os.makedirs(f"{args.outputPath}/shop_json")
             filepath = f"{args.outputPath}/shop_json/foodpandaShop_{lat}_{lng}-{offset}-{TODAY}.json"
@@ -181,6 +182,7 @@ def get_near_shop(lat, lng, today):
         for restaurant in restaurants:
             result["shopName"].append(restaurant.get("name", ""))
             result["shopCode"].append(restaurant.get("code", ""))
+            result["redirection_url"].append(restaurant.get("redirection_url", ""))
             result["budget"].append(restaurant.get("budget", 0))
             result["distance"].append(restaurant.get("distance", 0.0))
             result["pandaOnly"].append(restaurant.get("is_best_in_city", False))
