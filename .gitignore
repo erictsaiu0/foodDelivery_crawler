@@ -4,3 +4,4 @@ nohup.txt
 *.ipynb
 secret.txt
 .venv/
+*.log
